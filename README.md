@@ -1,7 +1,7 @@
-# Google STEP 2024: Travelling Salesperson Problem Challenges
+# Google STEP 2025: Travelling Salesperson Problem Challenges
 
 Originally By: [Hayato Ito](https://github.com/hayatoito) (hayato@google.com)  
-2020-2024 Versions By: [Hugh O'Cinneide](https://github.com/hkocinneide)
+2020-2025 Versions By: [Hugh O'Cinneide](https://github.com/hkocinneide)
 (hughoc@google.com) and [Hiromu Ikeda](https://github.com/rombot98) (hiromu@google.com)
 
 ## Quick Links
@@ -9,7 +9,7 @@ Originally By: [Hayato Ito](https://github.com/hayatoito) (hayato@google.com)
 - [Scoreboard]
 
 [scoreboard]:
-  https://docs.google.com/spreadsheets/d/1JwaOYVxMf0oTrgIkw1jiwd7FTIsIm2CNdNIhHRdInTk/edit?usp=sharing&resourcekey=0-AZAtJDUk0p-6bR5UCQSTQA
+  https://docs.google.com/spreadsheets/d/1ECsA-42FVfmnVybefLyDICtU931XVUaWai6flC7pYHE/edit?usp=sharing&resourcekey=0-jIPcyuQKOjK78kiA0PHI8g
 [github issues]: https://github.com/hayatoito/google-step-tsp/issues
 
 ## Problem Statement
@@ -154,7 +154,7 @@ formatted CSV files as input.
 
 ## Schedule
 
-### The class begins: 2023-06-09 (Fri) 5:00pm
+### The class begins: 2025-06-20 (Fri) 5:00pm
 
 I'll explain the "TSP" assignment.
 
@@ -164,7 +164,7 @@ Action items on Friday:
 
 2.  Fork this repository into your own GitHub.
 
-### Coding: From: 2023-06-09 (Fri) 8:00pm - To: 2023-06-23 (Fri) 5:00pm
+### Coding: From: 2025-06-20 (Fri) 8:00pm - To: 2025-07-04 (Fri) 5:00pm
 
 For the next two weeks, you are expected to improve your algorithm and enter
 the score in the [scoreboard] manually for each challenge. You can update the
