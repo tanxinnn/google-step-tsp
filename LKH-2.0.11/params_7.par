@@ -1,0 +1,3 @@
+PROBLEM_FILE = problem_7.tsp
+OUTPUT_TOUR_FILE = output_7.tour
+RUNS = 1

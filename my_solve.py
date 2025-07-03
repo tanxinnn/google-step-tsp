@@ -3,6 +3,7 @@
 from common import format_tour, read_input
 
 from my_greedy import solve, total_distance
+from my_insertion import solve as solve_insertion
 import solver_random
 
 CHALLENGES = 7
@@ -11,7 +12,7 @@ CHALLENGES = 7
 def generate_sample_output():
     for i in range(CHALLENGES):
         cities = read_input(f'input_{i}.csv')
-        tour = solve(cities)
+        tour = solve_insertion(cities)
         with open(f'output_{i}.csv', 'w') as f:
             f.write(format_tour(tour) + '\n')
         total = total_distance(tour, cities)
