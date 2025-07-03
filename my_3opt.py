@@ -122,6 +122,7 @@ def three_opt(tour, cities, time_limit=5.0):
                     if d1 < d0:
                         tour[i + 1:j + 1] = reversed(tour[i + 1:j + 1])
                         improved = True
+                        d0=d1
                         break
 
                     # パターン 2: reverse D-E
@@ -129,6 +130,7 @@ def three_opt(tour, cities, time_limit=5.0):
                     if d2 < d0:
                         tour[j + 1:k + 1] = reversed(tour[j + 1:k + 1])
                         improved = True
+                        d0=d2
                         break
 
                     # パターン 3: reverse B-C and D-E
