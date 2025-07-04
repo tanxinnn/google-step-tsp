@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-#Total distance: 46532.49 (best_insertion)
-#Total distance: 46461.10(greedy_insertion)
+#Total distance: 46532.49 (best_insertion,time-limit=5.0)
+#Total distance: 46461.10(greedy_insertion,time-limit=5.0)
+#Total distance: 46065.63(time-limit=20.0)
+#2opt, 3opt iteration 152: 43853.30
+#2opt, 3opt ieration 152: 88705.54
 import random
 import math
 import sys
 import time
 from common import read_input, print_tour
+import pickle
 
 # --------------------------
 # 距離関数・合計距離関数
@@ -58,17 +62,20 @@ def greedy_insertion(cities):
     return tour
 
 # --------------------------
-# 高速 2-opt 法
+# 2-opt 法
 # --------------------------
-def two_opt_fast(tour, cities, time_limit=10.0):
-    start_time = time.time()
+def two_opt_fast(tour, cities):
     N = len(tour)
     loop_count = 0
+    start_time = time.time()
 
-    while time.time() - start_time < time_limit:
+    while True:
         loop_count += 1
         improved = False
-        print(f"[2-opt] Iteration {loop_count}, elapsed: {time.time() - start_time:.2f} sec", end="\r")
+
+        if loop_count % 10 == 0:
+            elapsed = time.time() - start_time
+            print(f"[2-opt] Iteration {loop_count}, Elapsed: {elapsed:.2f} sec, Distance: {total_distance(tour, cities):.2f}")
 
         for i in range(1, N - 2):
             for j in range(i + 2, N):
@@ -81,41 +88,42 @@ def two_opt_fast(tour, cities, time_limit=10.0):
                 if after < before:
                     tour[i:j] = reversed(tour[i:j])
                     improved = True
-                    break
-            if improved:
-                break
         if not improved:
             break
 
-    print(f"\n[2-opt] Completed {loop_count} iterations in {time.time() - start_time:.2f} seconds.")
+    print(f"[2-opt] Completed in {loop_count} iterations, Final distance: {total_distance(tour, cities):.2f}")
     return tour
+
 
 # --------------------------
 # 3-opt 法
 # --------------------------
-def three_opt(tour, cities, time_limit=5.0):
-    start_time = time.time()
+def three_opt(tour, cities):
     N = len(tour)
     improved = True
     count = 0
+    start_time = time.time()
 
     def dist(a, b):
         return distance(cities[a], cities[b])
 
-    while improved and time.time() - start_time < time_limit:
-        improved = False
-        count += 1
-        print(f"[3-opt] Iteration {count}, Elapsed: {time.time() - start_time:.2f} sec", end='\r')
+    try:
+        while improved and count < 152:
+            improved = False
+            count += 1
 
-        for i in range(N - 5):
-            for j in range(i + 2, N - 2):
-                for k in range(j + 2, N if i > 0 else N - 1):
-                    A, B = tour[i], tour[i + 1]
-                    C, D = tour[j], tour[j + 1]
-                    E, F = tour[k], tour[(k + 1) % N]
+            if count % 2 == 0:
+                elapsed = time.time() - start_time
+                print(f"[3-opt] Iteration {count}, Elapsed: {elapsed:.2f} sec, Distance: {total_distance(tour, cities):.2f}")
 
-                    d0 = dist(A, B) + dist(C, D) + dist(E, F)
+            for i in range(N - 5):
+                for j in range(i + 2, N - 2):
+                    for k in range(j + 2, N if i > 0 else N - 1):
+                        A, B = tour[i], tour[i + 1]
+                        C, D = tour[j], tour[j + 1]
+                        E, F = tour[k], tour[(k + 1) % N]
 
+<<<<<<< HEAD
                     # 3-opt 交換パターンのうち代表的なものを試す
                     # パターン 1: reverse B-C
                     d1 = dist(A, C) + dist(B, D) + dist(E, F)
@@ -141,23 +149,51 @@ def three_opt(tour, cities, time_limit=5.0):
                         improved = True
                         break
 
+=======
+                        d0 = dist(A, B) + dist(C, D) + dist(E, F)
+
+                        d1 = dist(A, C) + dist(B, D) + dist(E, F)
+                        if d1 < d0:
+                            tour[i + 1:j + 1] = reversed(tour[i + 1:j + 1])
+                            improved = True
+                            break
+
+                        d2 = dist(A, B) + dist(C, E) + dist(D, F)
+                        if d2 < d0:
+                            tour[j + 1:k + 1] = reversed(tour[j + 1:k + 1])
+                            improved = True
+                            break
+
+                        d3 = dist(A, C) + dist(B, E) + dist(D, F)
+                        if d3 < d0:
+                            tour[i + 1:j + 1] = reversed(tour[i + 1:j + 1])
+                            tour[j + 1:k + 1] = reversed(tour[j + 1:k + 1])
+                            improved = True
+                            break
+
+                    if improved:
+                        break
+>>>>>>> 5e3e18d (Update)
                 if improved:
                     break
-            if improved:
-                break
 
-    print(f"\n[3-opt] Finished after {count} iterations in {time.time() - start_time:.2f} sec")
-    return tour
+        print(f"[3-opt] Finished after {count} iterations, Final distance: {total_distance(tour, cities):.2f}")
+        return tour
+    except KeyboardInterrupt:
+        with open("output_file", "wb") as f:
+            pickle.dump(tour, f)
+        print('[3-opt] Interrupted, tour saved to output_file')
+
 
 # --------------------------
 # メインソルバー
 # --------------------------
 def solve(cities):
-    initial_tour = greedy_insertion(cities)
-    
-    best_tour = two_opt_fast(initial_tour, cities, time_limit=20.0)
+    #initial_tour = greedy_insertion(cities)
+    tour=list(range(len(cities)))
+    best_tour = two_opt_fast(tour, cities)
     # 最後に3-optで調整
-    best_tour = three_opt(best_tour, cities, time_limit=20.0)
+    best_tour = three_opt(best_tour, cities)
     return best_tour
 
 # --------------------------
